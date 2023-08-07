@@ -17,6 +17,13 @@ public class DoOneStepOrGetChanceCardChanceCard extends ChanceCard {
 
     @Override
     public void action(Game game, Player player) {
+        switch (player.getStrategy()) {
+            case BUY -> strategyBuy(game, player);
+            case SAFE -> strategySafe(game, player);
+        }
+    }
+
+    private static void strategyBuy(Game game, Player player) {
         Board board = game.getBoard();
         Realtor realtor = board.getRealtor();
         int position = board.getPlayerToPosition().get(player.getToken());
@@ -29,5 +36,12 @@ public class DoOneStepOrGetChanceCardChanceCard extends ChanceCard {
             ChanceDeck chanceDeck = board.getChanceDeck();
             chanceDeck.action(game, player);
         }
+    }
+
+    private static void strategySafe(Game game, Player player) {
+        LOGGER.info("Speler %s speelt op safe.".formatted(player.getToken()));
+        Board board = game.getBoard();
+        ChanceDeck chanceDeck = board.getChanceDeck();
+        chanceDeck.action(game, player);
     }
 }

@@ -1,9 +1,6 @@
 package nl.patrickkik.monjun;
 
-import nl.patrickkik.monjun.domain.Game;
-import nl.patrickkik.monjun.domain.GameStats;
-import nl.patrickkik.monjun.domain.Player;
-import nl.patrickkik.monjun.domain.PlayerToken;
+import nl.patrickkik.monjun.domain.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,16 +16,16 @@ public class GameRunner {
 
         IntStream.range(0, numberOfGames)
                 .peek(nr -> {
-                    if (nr % 1000 == 0) {
+                    if (nr % 100 == 0) {
                         System.out.println(nr);
                     }
                 })
                 .mapToObj(nr -> {
                     List<Player> players = List.of(
-//                            new Player(PlayerToken.CAR),
-//                            new Player(PlayerToken.BOAT),
-                            new Player(PlayerToken.CAT),
-                            new Player(PlayerToken.DOG)
+                            new Player(PlayerToken.CAR, Strategy.SAFE),
+                            new Player(PlayerToken.BOAT, Strategy.BUY),
+                            new Player(PlayerToken.CAT, Strategy.BUY),
+                            new Player(PlayerToken.DOG, Strategy.BUY)
                     );
                     Game game = new Game(nr);
                     return game.start(players);

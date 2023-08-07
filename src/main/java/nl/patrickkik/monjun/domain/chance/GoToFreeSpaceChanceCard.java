@@ -33,6 +33,13 @@ public class GoToFreeSpaceChanceCard extends ChanceCard {
 
     @Override
     public void action(Game game, Player player) {
+        switch (player.getStrategy()) {
+            case BUY -> strategyBuy(game, player);
+            case SAFE -> strategyBuy(game, player);
+        }
+    }
+
+    private void strategyBuy(Game game, Player player) {
         Board board = game.getBoard();
         Realtor realtor = board.getRealtor();
         List<Amusement> amusements = board.getSpaces().stream()

@@ -22,6 +22,13 @@ public class DoUpToFiveStepsChanceCard extends ChanceCard {
 
     @Override
     public void action(Game game, Player player) {
+        switch (player.getStrategy()) {
+            case BUY -> strategyBuy(game, player);
+            case SAFE -> strategySafe(game, player);
+        }
+    }
+
+    private static void strategyBuy(Game game, Player player) {
         Board board = game.getBoard();
         Realtor realtor = board.getRealtor();
         int oldPosition = board.getPlayerToPosition().get(player.getToken());
@@ -50,6 +57,18 @@ public class DoUpToFiveStepsChanceCard extends ChanceCard {
         // Geen van de vakjes kon ik kopen. Blijft het 2e vakje over.
         // Dat is altijd een van de hoeken en dus relatief veilig.\
         LOGGER.info("Geen vakjes om te kopen.");
+        board.place(player, spaces.get(2).getPosition(), false);
+    }
+
+    private void strategySafe(Game game, Player player) {
+        Board board = game.getBoard();
+        int oldPosition = board.getPlayerToPosition().get(player.getToken());
+        List<Space> spaces = IntStream.rangeClosed(1, 5)
+                .map(i -> (oldPosition + i) % 24)
+                .mapToObj(position -> board.getSpaces().get(position))
+                .peek(space -> LOGGER.info("Vakje %s %s".formatted(space.getName(), space instanceof Amusement a ? "(%s, eigenaar: %s)".formatted(a.getValue(), a.getOwner() == null ? "beschikbaar" : a.getOwner().getToken()) : "")))
+                .toList();
+
         board.place(player, spaces.get(2).getPosition(), false);
     }
 }

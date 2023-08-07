@@ -14,10 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 public class Player extends CapitalStorer {
-    @NonNull PlayerToken token;
-    List<Amusement> posessions = new ArrayList<>();
-    boolean hasGetOutOfJailCard = false;
-    GoToFreeSpaceForPlayerChanceCard goToFreeSpaceForPlayerChanceCard = null;
+
+    private @NonNull PlayerToken token;
+    private @NonNull Strategy strategy;
+    private List<Amusement> posessions = new ArrayList<>();
+    private boolean hasGetOutOfJailCard = false;
+    private GoToFreeSpaceForPlayerChanceCard goToFreeSpaceForPlayerChanceCard = null;
 
     public void addPosession(Amusement posession) {
         posessions.add(posession);
